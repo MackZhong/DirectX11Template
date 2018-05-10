@@ -8,8 +8,8 @@ using namespace DirectX;
 
 const LONG g_WindowWidth = 640;
 const LONG g_WindowHeight = 480;
-LPCSTR g_WindowClassName = "DirectXWindowClass";
-LPCSTR g_WindowName = "DirectX Template";
+LPCWSTR g_WindowClassName = L"DirectXWindowClass";
+LPCWSTR g_WindowName = L"DirectX Template";
 HWND g_WindowHandle = 0;
 
 const BOOL g_EnableVSync = FALSE;
@@ -104,7 +104,7 @@ void Cleanup();
  */
 int InitApplication( HINSTANCE hInstance, int cmdShow )
 {
-    WNDCLASSEX wndClass = {0};
+    WNDCLASSEXW wndClass = {0};
     wndClass.cbSize = sizeof( WNDCLASSEX );
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
     wndClass.lpfnWndProc = &WndProc;
@@ -123,7 +123,7 @@ int InitApplication( HINSTANCE hInstance, int cmdShow )
     RECT windowRect = { 0, 0, g_WindowWidth, g_WindowHeight };
     AdjustWindowRect( &windowRect, WS_OVERLAPPEDWINDOW, FALSE );
 
-    g_WindowHandle = CreateWindowA( g_WindowClassName, g_WindowName, 
+    g_WindowHandle = CreateWindowW( g_WindowClassName, g_WindowName, 
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
         windowRect.right - windowRect.left, 
         windowRect.bottom - windowRect.top, 
@@ -815,6 +815,7 @@ void Update(  float deltaTime )
     XMVECTOR rotationAxis = XMVectorSet( 0, 1, 1, 0 );
     
     g_WorldMatrix = XMMatrixRotationAxis( rotationAxis, XMConvertToRadians(angle) );
+	//g_WorldMatrix = XMMatrixIdentity();
     g_d3dDeviceContext->UpdateSubresource( g_d3dConstantBuffers[CB_Object], 0, nullptr, &g_WorldMatrix, 0, 0 );
 }
 
